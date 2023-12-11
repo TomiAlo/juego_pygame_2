@@ -56,7 +56,7 @@ class Cell(pygame.sprite.Sprite):
     
     def life(self, game):
         for life in range(game.lives_cell):
-            blit_background(SCREEN, image_heart, black, (life*16+900,0))
+            blit_background(SCREEN, image_heart, black, (1000-life*16,0))
 
     def final_shot(self, game):
         FinalShootLeft([game.all_sprites, game.enemies_shoots], self.rect.bottomleft)

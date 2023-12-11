@@ -21,6 +21,9 @@ image_level_selector_scale=pygame.transform.scale(image_level_selector, (WIDTH, 
 image_heart=pygame.image.load("assets/images/heart.png")
 
 image_platform=pygame.image.load("assets/images/platform1.png")
+image_platform_two=pygame.image.load("assets/images/platform2.png")
+
+image_seed=pygame.image.load("assets/images/seed.png")
 
 UpRight=9
 DownRight=3
@@ -38,7 +41,7 @@ blue=(42,157,244)
 
 origin=(0,0)
 
-FPS = 60
+FPS = 120
 
 GRAVITY=0.5
 

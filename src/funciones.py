@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from config import *
+import json
 
 def blit_background(screen, image_path, colour, position):
     """
@@ -285,3 +286,35 @@ def wait_user_pause():
                 running=False
             if e.type==KEYDOWN:
                 return
+        
+def load_json(json_file_path, default_data):
+    """
+    load_json se encarga de verificar que haya un archivo json
+    si no existe crea uno y guarda default_data
+    
+    recibe como parametros el path del archivo json y el contenido por default que deberia llevar el json
+    retorna el contenido del json en data 
+
+    """
+    try:
+        with open(json_file_path, 'r') as jsonfile:
+            data = json.load(jsonfile)
+    except FileNotFoundError:
+        with open(json_file_path, 'w') as jsonfile:
+            data = default_data
+            json.dump(data, jsonfile)
+
+    return data
+
+def update_json(json_file_path, name_player, count_player, data):
+    """
+    update_json agrega a la lista el puntaje que retorno el json y reescribe el json con el nuevo ganador
+    
+    recibe como parametros el path del json, los datos de los jugadores y el contenido del json
+    """
+    winner = {'winner': name_player, 'score': count_player}
+
+    data.append(winner)
+
+    with open(json_file_path, "w") as jsonfile:
+        json.dump(data, jsonfile, indent=2)
