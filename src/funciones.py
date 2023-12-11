@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from config import *
 import json
+import sqlite3
 
 def blit_background(screen, image_path, colour, position):
     """
@@ -213,6 +214,7 @@ def wait_click_menu(rect_btn_play, rect_btn_option, rect_btn_exit):
     while True:
         for e in pygame.event.get():
             if e.type==QUIT:
+                
                 pygame.quit()
             if e.type==KEYDOWN:
                 if e.key==K_ESCAPE:
@@ -318,3 +320,29 @@ def update_json(json_file_path, name_player, count_player, data):
 
     with open(json_file_path, "w") as jsonfile:
         json.dump(data, jsonfile, indent=2)
+    
+def connect_to_database():
+    connection = sqlite3.connect('sqlite.db')
+    return connection
+
+def create_scores_table(connection):
+    cursor = connection.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS scores (
+            id INTEGER PRIMARY KEY,
+            player_name TEXT,
+            score INTEGER
+        )
+    ''')
+    connection.commit()
+
+def save_score(self):
+    cursor = self.connection.cursor()
+    data=cursor.execute("SELECT * FROM scores")
+    print(data.fetchall())
+    cursor.execute("INSERT INTO scores (player_name, score) VALUES (?, ?)", (self.name_player, self.puntaje))
+    self.connection.commit()
+    
+
+def close_database_connection(self):
+    self.connection.close()

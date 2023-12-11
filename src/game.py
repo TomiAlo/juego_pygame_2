@@ -10,6 +10,7 @@ from seed import Seed
 from enemy_shooter import EnemyShooter
 from final_player import FinalPlayer
 from cell import Cell
+import sqlite3
 
 class Game:
     def __init__(self) -> None:
@@ -44,6 +45,9 @@ class Game:
         
         self.name_player="player"
         
+        self.connection = connect_to_database()
+        create_scores_table(self.connection)
+        
         self.all_sprites=pygame.sprite.Group()
         self.all_enemies=pygame.sprite.Group()
         self.all_enemies_shooters=pygame.sprite.Group()
@@ -63,8 +67,6 @@ class Game:
         self.sprite_sheet_cell=SpriteSheet(pygame.image.load("./assets/sprites/cell.png").convert_alpha(),7,3,128,112)
         self.lives_cell=12
         self.lives=3
-        
-        
         self.flag_level_one=False
         self.flag_level_two=False
         self.flag_level_three=False
@@ -408,6 +410,7 @@ class Game:
 
         self.player=FinalPlayer([self.all_sprites],self.sprite_sheet_final_player_movement,self)
         self.cell=Cell([self.all_enemies],self.sprite_sheet_cell,870,300)
+        self.lives_cell=12
         running=True
         while running:
             for event in pygame.event.get():
@@ -465,6 +468,10 @@ class Game:
             self.update()
             self.draw()
             self.cell.life(self)
+            if self.lives_cell==0:
+                save_score(self)
+                close_database_connection(self)
+
     
     def end_sprites(self):
         for platform in self.platforms:
@@ -476,3 +483,5 @@ class Game:
             enemy_shooter.kill()
         for enemy in self.enemies:
             enemy.kill()
+        
+    

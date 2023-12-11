@@ -18,7 +18,6 @@ class Enemy(pygame.sprite.Sprite):
     
     def update(self):
         self.rect.x += self.speed
-        print(self.rect.x)
         self.speed_y+=GRAVITY
         self.rect.y+=self.speed_y
             
