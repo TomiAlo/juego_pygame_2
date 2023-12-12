@@ -1,13 +1,20 @@
 import pygame
+import json
 
-WIDTH=1000
-HEIGHT=600
-HEIGHT_PLAYER=550
+json_file_path = 'assets/file/data.json'
+
+with open(json_file_path, 'r') as jsonfile:
+        data = json.load(jsonfile)
+
+
+WIDTH=data[0]["width"]
+HEIGHT=data[1]["height"]
+HEIGHT_PLAYER=data[2]["height_player"]
+FPS =data[3]["fps"]
+GRAVITY=data[4]["gravity"]
 
 image_background_level= pygame.image.load("assets/images/background_level.png")
 image_background_level_scale=pygame.transform.scale(image_background_level, (WIDTH, HEIGHT))
-
-
 
 image_background_controls=pygame.image.load("assets/images/background_controls.jpg")
 image_background_controls_scale = pygame.transform.scale(image_background_controls, (WIDTH, HEIGHT))
@@ -30,7 +37,6 @@ DownRight=3
 DownLeft=1
 UpLeft=7
 
-
 SCREEN=pygame.display.set_mode((WIDTH,HEIGHT))
 
 black=(0,0,0)
@@ -41,7 +47,5 @@ blue=(42,157,244)
 
 origin=(0,0)
 
-FPS = 120
 
-GRAVITY=0.5
 

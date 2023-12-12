@@ -32,11 +32,6 @@ class Game:
         
         self.clock=pygame.time.Clock()
         
-        self.json_file_path = 'assets/file/winners.json'
-        default_data = [{"winner": "tomas", "score": 1}]
-
-        self.data = load_json(self.json_file_path, default_data)
-        
         self.puntaje=0
         
         self.text_score_player=self.font.render(f"score: {self.puntaje}",True,white)
@@ -71,10 +66,10 @@ class Game:
         self.flag_level_two=False
         self.flag_level_three=False
         self.flag_sound=True
+
     
     def run(self):
         while True:
-            
             blit_background(SCREEN, image_background_presentation_scale, black, origin)
             
             show_message(SCREEN, "PRESIONE CUALQUIER TECLA", (WIDTH/2,350),white, (0,56,192), 15)
@@ -200,7 +195,6 @@ class Game:
                 self.puntaje=self.puntaje+1000
                 self.flag_level_three=True
                 self.text_score_player=self.font.render(f"score: {self.puntaje}",True,white)
-                update_json(self.json_file_path, self.name_player, self.puntaje, self.data)
                 return 0
         hits=pygame.sprite.spritecollide(self.cell, self.final_player_shoots, True)
         for hit in hits:
@@ -210,7 +204,6 @@ class Game:
                 self.puntaje=self.puntaje+1000
                 self.flag_level_three=True
                 self.text_score_player=self.font.render(f"score: {self.puntaje}",True,white)
-                update_json(self.json_file_path, self.name_player, self.puntaje, self.data)
                 return 0
         
         

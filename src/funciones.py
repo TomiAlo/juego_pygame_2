@@ -289,7 +289,7 @@ def wait_user_pause():
             if e.type==KEYDOWN:
                 return
         
-def load_json(json_file_path, default_data):
+def load_json(json_file_path):
     """
     load_json se encarga de verificar que haya un archivo json
     si no existe crea uno y guarda default_data
@@ -298,13 +298,10 @@ def load_json(json_file_path, default_data):
     retorna el contenido del json en data 
 
     """
-    try:
-        with open(json_file_path, 'r') as jsonfile:
-            data = json.load(jsonfile)
-    except FileNotFoundError:
-        with open(json_file_path, 'w') as jsonfile:
-            data = default_data
-            json.dump(data, jsonfile)
+
+    with open(json_file_path, 'r') as jsonfile:
+        data = json.load(jsonfile)
+    
 
     return data
 
