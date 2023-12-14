@@ -343,3 +343,8 @@ def save_score(self):
 
 def close_database_connection(self):
     self.connection.close()
+
+def show_top_scores(self, limit=3):
+    cursor = self.connection.cursor()
+    cursor.execute("SELECT * FROM scores ORDER BY score DESC LIMIT ?", (limit,))
+    return cursor.fetchall()

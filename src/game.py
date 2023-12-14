@@ -66,13 +66,14 @@ class Game:
         self.flag_level_two=False
         self.flag_level_three=False
         self.flag_sound=True
+        self.user_text=''
 
     
     def run(self):
         while True:
             blit_background(SCREEN, image_background_presentation_scale, black, origin)
             
-            show_message(SCREEN, "PRESIONE CUALQUIER TECLA", (WIDTH/2,350),white, (0,56,192), 15)
+            show_message(SCREEN, "PRESIONE UNA TECLA", (WIDTH/2,350),white, (0,56,192), 15)
             pygame.display.flip()
             wait_user()
             
@@ -82,7 +83,12 @@ class Game:
                 pygame.display.flip()
                 start_menu_selected=wait_click_menu(btn_play["rect"], btn_option["rect"],btn_exit["rect"])
                 
+                if self.flag_level_three==True:
+                    self.puntaje=0
+                    pygame.display.flip()
+                        
                 if start_menu_selected==3:
+                    close_database_connection(self)
                     pygame.quit()
                 elif start_menu_selected==2:
                     blit_background(SCREEN, image_background_presentation_scale,black,origin)
@@ -99,6 +105,14 @@ class Game:
                     while running:
                         
                         blit_background(SCREEN, image_level_selector_scale,black,origin)
+                        top_scores_data = show_top_scores(self, limit=1)
+                        y = 50
+                        for score in top_scores_data:
+                            txt = f"TOP SCORE: {score[2]}"
+                            render_txt = self.font.render(txt, True, black)
+                            SCREEN.blit(render_txt, (70, y))
+                            y += 50
+                            pygame.display.flip()
                         SCREEN.blit(self.text_score_player, self.rect_score_player)
                         if self.lives==0:
                             self.puntaje=0
@@ -463,7 +477,7 @@ class Game:
             self.cell.life(self)
             if self.lives_cell==0:
                 save_score(self)
-                close_database_connection(self)
+                
 
     
     def end_sprites(self):
